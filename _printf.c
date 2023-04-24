@@ -1,11 +1,12 @@
 #include "main.h"
+void print_buffer(char buffer[], int *buff_ind);
 /**
  * _printf -  function sends a formatted string
  * to the standard output (the display)
  * @format: format.
  * Return: the number of characters printed.
  */
- void print_buffer(char buffer[], int *buff_ind);
+
 int _printf(const char *format, ...)
 {
 	int x, printed = 0, printed_chars = 0;
