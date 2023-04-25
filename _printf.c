@@ -1,65 +1,49 @@
 #include "main.h"
-void print_buffer(char buffer[], int *buff_ind);
-/**
- * _printf -  function sends a formatted string
- * to the standard output (the display)
- * @format: format.
- * Return: the number of characters printed.
- */
 
+/**
+* _printf - Prins any thing
+* @format: format string
+* Return: Printed number of the bytes
+*/
 int _printf(const char *format, ...)
 {
-	int x, printed = 0, printed_chars = 0;
-	int flags, width, precision, size, buff_ind = 0;
-	va_list list;
-	char buffer[BUFF_SIZE];
+int sum = 0;
+va_list ap;
+char *p, *start;
+params_t params - PARAMS_INIT;
+va_start(ap, format);
 
-	if (format == NULL)
-		return (-1);
+if (!format || (format[0] == '%' && !format[1]))
+return (-1);
+if (format[0] == '%' && format[1] == ' ' && !format[2])
+return (-1);
 
-	va_start(list, format);
-
-	for (x = 0; format && format[x] != '\0'; x++)
-	{
-		if (format[x] != '%')
-		{
-			buffer[buff_ind++] = format[x];
-			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind);
-			printed_chars++;
-		}
-		else
-		{
-			print_buffer(buffer, &buff_ind);
-			flags = get_flags(format, &x);
-			width = get_width(format, &x, list);
-			precision = get_precision(format, &x, list);
-			size = get_size(format, &x);
-			++x;
-			printed = handle_print(format, &x, list, buffer,
-				flags, width, precision, size);
-			if (printed == -1)
-				return (-1);
-			printed_chars += printed;
-		}
-	}
-
-	print_buffer(buffer, &buff_ind);
-
-	va_end(list);
-
-	return (printed_chars);
-}
-
-/**
- * print_buffer - Prints the contents of the buffer if it exist
- * @buffer: Array of chars
- * @buff_ind: Index at which to add next char, represents the length.
- */
-void print_buffer(char buffer[], int *buff_ind)
+for (p = (char *)format; *p; p++)
 {
-	if (*buff_ind > 0)
-		write(1, &buffer[0], *buff_ind);
+	init_params(&params, ap);
+if (*p != '%')
+{
+	sum += _putchar(*p);
+	continue;
+}
+start = p;
+p++;
 
-	*buff_ind = 0;
+while (get_flag(p, &params, ap);
+{
+p++;
+}
+p = get_width(p, &params, ap);
+p = get_precision(p, &params, ap);
+if (get_modifier(p, &params))
+p++;
+if (!get_specifier(p))
+sum += print_from_to(start, p,
+       	params.l_modifier || params.h_modifier ? p - 1 : 0);
+else
+sum += get_print_func(p, ap, &params);
+}
+_putchar(BUF_FLUSH);
+va_end(ap);
+return (sum);
 }
